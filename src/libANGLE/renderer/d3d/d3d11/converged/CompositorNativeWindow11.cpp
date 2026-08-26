@@ -38,8 +38,8 @@ bool CompositorNativeWindow11::getClientRect(LPRECT rect) const
     mHostVisual.As(&visual);
 
     ABI::Windows::Foundation::Numerics::Vector2 size;
-#if defined(MINGW_ENABLED) && (!defined(__MINGW64_VERSION_MAJOR) || __MINGW64_VERSION_MAJOR < 10)
-    HRESULT hr = visual->get_Size(&size);
+#if defined(MINGW_ENABLED) && defined(__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 10
+    HRESULT hr = visual->get_Size(reinterpret_cast<ABI::Windows::UI::Composition::Vector2 *>(&size));
 #else
     HRESULT hr = visual->get_Size(&size);
 #endif
@@ -49,8 +49,8 @@ bool CompositorNativeWindow11::getClientRect(LPRECT rect) const
     }
 
     ABI::Windows::Foundation::Numerics::Vector3 offset;
-#if defined(MINGW_ENABLED) && (!defined(__MINGW64_VERSION_MAJOR) || __MINGW64_VERSION_MAJOR < 10)
-    hr = visual->get_Offset(&offset);
+#if defined(MINGW_ENABLED) && defined(__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 10
+    hr = visual->get_Offset(reinterpret_cast<ABI::Windows::UI::Composition::Vector3 *>(&offset));
 #else
     hr = visual->get_Offset(&offset);
 #endif
