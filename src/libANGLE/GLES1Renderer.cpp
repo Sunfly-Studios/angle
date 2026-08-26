@@ -141,7 +141,7 @@ angle::Result GLES1Renderer::prepareForDraw(PrimitiveMode mode,
         if (texCubeEnables[i] && currCubeTexture &&
             IsMipmapFiltered(currCubeTexture->getMinFilter()))
         {
-            texCubeEnables[i] = curr2DTexture->isMipmapComplete();
+            texCubeEnables[i] = currCubeTexture->isMipmapComplete();
         }
     }
 
