@@ -491,17 +491,33 @@ constexpr char kGLES1DrawFShaderUniformDefs[] = R"(
 // These are not arrays because hw support for arrays
 // of samplers is rather lacking.
 
+#ifdef ENABLE_TEXTURE_2D_0
 uniform mediump sampler2D tex_sampler0;
+#endif
+#ifdef ENABLE_TEXTURE_CUBE_MAP_0
 uniform mediump samplerCube tex_cube_sampler0;
+#endif
 
+#ifdef ENABLE_TEXTURE_2D_1
 uniform mediump sampler2D tex_sampler1;
+#endif
+#ifdef ENABLE_TEXTURE_CUBE_MAP_1
 uniform mediump samplerCube tex_cube_sampler1;
+#endif
 
+#ifdef ENABLE_TEXTURE_2D_2
 uniform mediump sampler2D tex_sampler2;
+#endif
+#ifdef ENABLE_TEXTURE_CUBE_MAP_2
 uniform mediump samplerCube tex_cube_sampler2;
+#endif
 
+#ifdef ENABLE_TEXTURE_2D_3
 uniform mediump sampler2D tex_sampler3;
+#endif
+#ifdef ENABLE_TEXTURE_CUBE_MAP_3
 uniform mediump samplerCube tex_cube_sampler3;
+#endif
 
 uniform mediump vec4 texture_env_color[kMaxTexUnits];
 uniform mediump float texture_env_rgb_scale[kMaxTexUnits];
@@ -752,51 +768,67 @@ mediump vec4 getTextureColor(uint unit)
     {
 #if kTexUnits >= 1u
         case 0u:
+#ifdef ENABLE_TEXTURE_2D_0
             if (enable_texture_2d[0])
             {
                 res = texture(tex_sampler0, texcoord0_varying.xy);
             }
-            else if (enable_texture_cube_map[0])
+#endif
+#ifdef ENABLE_TEXTURE_CUBE_MAP_0
+            if (enable_texture_cube_map[0])
             {
                 res = texture(tex_cube_sampler0, texcoord0_varying);
             }
+#endif
             break;
 #endif
 #if kTexUnits >= 2u
         case 1u:
+#ifdef ENABLE_TEXTURE_2D_1
             if (enable_texture_2d[1])
             {
                 res = texture(tex_sampler1, texcoord1_varying.xy);
             }
-            else if (enable_texture_cube_map[1])
+#endif
+#ifdef ENABLE_TEXTURE_CUBE_MAP_1
+            if (enable_texture_cube_map[1])
             {
                 res = texture(tex_cube_sampler1, texcoord1_varying);
             }
+#endif
             break;
 #endif
 #if kTexUnits >= 3u
         case 2u:
+#ifdef ENABLE_TEXTURE_2D_2
             if (enable_texture_2d[2])
             {
                 res = texture(tex_sampler2, texcoord2_varying.xy);
             }
-            else if (enable_texture_cube_map[2])
+#endif
+#ifdef ENABLE_TEXTURE_CUBE_MAP_2
+            if (enable_texture_cube_map[2])
             {
                 res = texture(tex_cube_sampler2, texcoord2_varying);
             }
+#endif
             break;
 #endif
 #if kTexUnits >= 4u
         case 3u:
+#ifdef ENABLE_TEXTURE_2D_3
             if (enable_texture_2d[3])
             {
                 res = texture(tex_sampler3, texcoord3_varying.xy);
             }
-            else if (enable_texture_cube_map[3])
+#endif
+#ifdef ENABLE_TEXTURE_CUBE_MAP_3
+            if (enable_texture_cube_map[3])
             {
                 // TODO: Weird stuff happens
                 // res = texture(tex_cube_sampler3, texcoord3_varying);
             }
+#endif
             break;
 #endif
         default:
@@ -813,28 +845,36 @@ mediump vec4 getPointSpriteTextureColor(uint unit)
     switch (unit)
     {
         case 0u:
+#ifdef ENABLE_TEXTURE_2D_0
             if (enable_texture_2d[0])
             {
                 res = texture(tex_sampler0, gl_PointCoord.xy);
             }
+#endif
             break;
         case 1u:
+#ifdef ENABLE_TEXTURE_2D_1
             if (enable_texture_2d[1])
             {
                 res = texture(tex_sampler1, gl_PointCoord.xy);
             }
+#endif
             break;
         case 2u:
+#ifdef ENABLE_TEXTURE_2D_2
             if (enable_texture_2d[2])
             {
                 res = texture(tex_sampler2, gl_PointCoord.xy);
             }
+#endif
             break;
         case 3u:
+#ifdef ENABLE_TEXTURE_2D_3
             if (enable_texture_2d[3])
             {
                 res = texture(tex_sampler3, gl_PointCoord.xy);
             }
+#endif
             break;
         default:
             break;

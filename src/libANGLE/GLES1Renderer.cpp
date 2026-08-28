@@ -907,6 +907,17 @@ void GLES1Renderer::addFragmentShaderDefs(std::stringstream &outStream)
 
     // int fog_mode;
     addShaderUint(outStream, "fog_mode", static_cast<uint16_t>(ToGLenum(mShaderState.fogMode)));
+    for (int i = 0; i < kTexUnitCount; i++)
+    {
+        if (mShaderState.tex2DEnables[i])
+        {
+            outStream << "\n#define ENABLE_TEXTURE_2D_" << i << "\n";
+        }
+        if (mShaderState.texCubeEnables[i])
+        {
+            outStream << "\n#define ENABLE_TEXTURE_CUBE_MAP_" << i << "\n";
+        }
+    }
 }
 
 angle::Result GLES1Renderer::initializeRendererProgram(Context *context,
@@ -1103,7 +1114,7 @@ angle::Result GLES1Renderer::initializeRendererProgram(Context *context,
     for (int i = 0; i < kTexUnitCount; i++)
     {
         setUniform1i(context, &executable, programState.tex2DSamplerLocs[i], i);
-        setUniform1i(context, &executable, programState.texCubeSamplerLocs[i], i + kTexUnitCount);
+        setUniform1i(context, &executable, programState.texCubeSamplerLocs[i], i);
     }
 
     // We just created a new program, we need to sync everything
